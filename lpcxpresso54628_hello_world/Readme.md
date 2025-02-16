@@ -4,6 +4,8 @@ The basis for this demo project was chosen from the NXP example code (hello_worl
 
 The calls to the demo code necessary for testing the data logging and some additional functions have been added to the `hello_world.c` file. The *RTEdbg* subfolder containing the RTEdbg library and the demo files has been added to the project `source` folder. Compilation and linking options have been modified where necessary - see below.
 
+See the **RTEdbg manual** - section ***Simple Demo Project*** for a general description of demo projects.
+
 The `g_rtedbg` structure definitions have been added to the link definition file 
 `lpcxpresso54628_hello_world_Debug.ld` 
 and the managed linker script was disabled. The automatically generated linker script files have been moved out of the debug folder because they might be deleted by the project clean command. They have been moved up one level for the demo project and the script path has been changed accordingly.
