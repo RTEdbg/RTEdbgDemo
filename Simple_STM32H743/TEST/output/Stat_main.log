@@ -1,0 +1,23 @@
+Total messages processed: 1049
+
+Format IDs: 77 of 1022 used (7.5%)
+
+Messages with the highest frequency (number of occurrences)
+ 1    235 MSG0_START_SIN_COS
+ 2    235 MSG2_SINCOS_DEMO
+ 3    234 MSG0_SIMPLE_TEST_START
+ 4    234 MSG1_UWTICK
+ 5     79 MSGN3_BATT_DEMO
+ 6     30 MSG1_LONG_TIMESTAMP
+ 7      1 MSG0_TRIGGER_SYS_ERROR
+ 8      1 MSGN23_FATAL_EXCEPTION
+
+Messages with the highest circular buffer usage (size in bytes)
+ 1   2820 MSG2_SINCOS_DEMO
+ 2   1872 MSG1_UWTICK
+ 3   1264 MSGN3_BATT_DEMO
+ 4    940 MSG0_START_SIN_COS
+ 5    936 MSG0_SIMPLE_TEST_START
+ 6    240 MSG1_LONG_TIMESTAMP
+ 7    116 MSGN23_FATAL_EXCEPTION
+ 8      4 MSG0_TRIGGER_SYS_ERROR

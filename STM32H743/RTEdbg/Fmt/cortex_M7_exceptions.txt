@@ -1,0 +1,17 @@
+Thread mode
+Reserved
+NMI
+HardFault
+MemManage
+BusFault
+UsageFault
+Reserved
+Reserved
+Reserved
+Reserved
+SVCall
+Reserved for debug
+Reserved
+PendSV
+SysTick
+Uninitialized IRQ
