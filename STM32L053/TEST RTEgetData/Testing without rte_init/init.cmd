@@ -18,6 +18,6 @@ M20001460,4:00000000
 ## Set RTEdbg config word and timestamp frequency as in your project.
 #init 0x86101016 16000000
 
-## ST-LINK GDB server stops code execution after RTEgdbData connects to it.
+## ST-LINK GDB server stops code execution after RTEgetData connects to it.
 ## Start the code execution.
 vCont;c

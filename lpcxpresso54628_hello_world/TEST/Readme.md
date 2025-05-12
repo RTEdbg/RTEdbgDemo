@@ -2,7 +2,7 @@
 
 The TEST folder contains batch files for data transfer from the embedded system to the host using ST-LINK or J-LINK debug probes. Data decoding and display is also started from the same batch files. These files are just examples of how it is possible to automate the whole process.
 
-**Note:** The new **RTEgdbData command line utility** is available. It allows data to be transferred in a uniform way via a GDB server. This makes it possible to transfer data to the host even for debug probes that do not have a command line utility for transferring data. See the readme in the *c:\RTEdbg\UTIL\RTEgdbData* folder or in the **[RTEgdbData Github repository](https://github.com/RTEdbg/RTEgdbData)**. Examples of batch files are in the TEST subfolder.
+**Note:** The **RTEgetData command line utility** is available. It allows data to be transferred in a uniform way via a GDB server. This makes it possible to transfer data to the host even for debug probes that do not have a command line utility for transferring data. See the readme in the *c:\RTEdbg\UTIL\RTEgetData* folder or in the **[RTEgetData Github repository](https://github.com/RTEdbg/RTEgetData)**. Examples of batch files are in the TEST subfolder.
 
 
 Before using batch files in your project, do the following
@@ -35,7 +35,7 @@ Transferring data while the firmware is running does not affect the operation of
 ### **Snapshot_JLINK.bat**
 Transfer and decode binary data from the embedded system using the Segger J-LINK debug probe. See the `Snapshot_STLINK.bat` description above.
 
-**Note:** If you are using the J-Link debug probe to transfer data from an embedded system and the CPU cycle counter is used as timestamp timer, please note that the J-Link driver by default clears all debug enable bits of the Cortex-M core when the debug session is closed, and this also disables the DWT unit with the cycle counter. This causes the cycle counter (`DWT->CYCCNT`) to stop after data transfer with the JLink.exe command line application. This can be avoided by transferring data with the RTEgdbData application or by starting the J-Link GDB server and keeping it running while testing the embedded system. You can also use another timer instead of the CPU cycle counter for the timestamp timer to avoid this.
+**Note:** If you are using the J-Link debug probe to transfer data from an embedded system and the CPU cycle counter is used as timestamp timer, please note that the J-Link driver by default clears all debug enable bits of the Cortex-M core when the debug session is closed, and this also disables the DWT unit with the cycle counter. This causes the cycle counter (`DWT->CYCCNT`) to stop after data transfer with the JLink.exe command line application. This can be avoided by transferring data with the RTEgetData application or by starting the J-Link GDB server and keeping it running while testing the embedded system. You can also use another timer instead of the CPU cycle counter for the timestamp timer to avoid this.
 <br>See also [J-Link Cortex-M application uses cycle counter](https://kb.segger.com/J-Link_Cortex-M_application_uses_cycle_counter).
 
 ### **Restart_single_shot_STLINK.bat**

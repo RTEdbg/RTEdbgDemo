@@ -1,5 +1,0 @@
-## Demonstration of logging data structure initialization without the rte_init() function
-
-This folder contains an example of how to initialize a data structure for logging data without using the `rte_init()` function. The initialization is performed by the RTEgdbData program after startup when it executes the commands contained in the `init.cmd` file - start the `Initialize_data_structure_and_start_RTEgdbData.bat` batch file. The RTEgdbData program is started in persistent mode (it does not terminate). With commands (keystrokes) it is possible to start the data transfer from the embedded system several times in a row. Since a batch file for data decoding is defined with the -decode parameter, decoding and data display are started automatically after the data transfer. Before loading the code into the embedded system, disable (e.g., comment out) the `rte_init()` function.
-
-For additional instructions on the RTEgdbData utility, see the **[Readme.md](https://github.com/RTEdbg/RTEgdbData/blob/master/Readme.md)** file in the **RTEgdbData project** - section *Logging data structure initialization without the rte_init() function*.

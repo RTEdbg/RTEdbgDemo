@@ -1,6 +1,6 @@
 @echo off
-REM Transfer data from embedded system using J-Link Debug Probe GDB Server
-"c:\RTEdbg\UTIL\RTEgdbData\RTEgdbData.exe" 2331 0x10000000 0
+REM Transfer data from embedded system using ST-Link Debug Probe GDB Server
+"c:\RTEdbg\UTIL\RTEgetData\RTEgetData.exe" 61234 0x24000000 0 -filter=0xFFFFFFFF
 
 IF %ERRORLEVEL% EQU 0 goto ShowData
 REM Pause to display error message in console window
