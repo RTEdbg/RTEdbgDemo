@@ -59,7 +59,7 @@ void Error_Handler(void);
 
 /* Private defines -----------------------------------------------------------*/
 /* USER CODE BEGIN Private defines */
-//#define INVALID_ADDRESS    ((volatile uint32_t *)0x07000000)
+#define INVALID_ADDRESS    ((volatile uint32_t *)0x07000000)
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

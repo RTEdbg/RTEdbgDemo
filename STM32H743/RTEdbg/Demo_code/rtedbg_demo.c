@@ -231,7 +231,7 @@ __NO_RETURN void rtedbg_demo(void)
         // Provoke a fatal error => start the demo of exception data logging
         if (counter > 600U)
         {
-//            (void)*INVALID_ADDRESS;  // Read from invalid address
+            (void)*INVALID_ADDRESS;  // Read from invalid address
             // Note: A write to the invalid address can provoke an imprecise error due to write
             //       buffering (on CPU cores where implemented and enabled).
         }

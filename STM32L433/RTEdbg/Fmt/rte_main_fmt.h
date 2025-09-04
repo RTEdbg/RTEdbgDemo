@@ -15,6 +15,6 @@
 // INCLUDE("simple_demo_fmt.h")
 
 /**** Format definitions for the code in "fault_handler.c" ***/
-// INCLUDE("cortex_M4_fault.h")
+// INCLUDE("cortex_M4-M7_fault.h")
 
 #endif

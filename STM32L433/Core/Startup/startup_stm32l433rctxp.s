@@ -114,12 +114,49 @@ LoopForever:
  * @retval : None
 */
     .section	.text.Default_Handler,"ax",%progbits
+    .global   Default_Handler
 Default_Handler:
-/***********************************************/
-/*Infinite_Loop:*/
-  b start_exception_handler
-/*  b  Infinite_Loop */
-/**********************************************/
+/*+++++++++++++++++++++++++++++++++++++++++++++*/
+/* DEFAULT EXCEPTION HANDLER - See the 'Exception_handler_Cortex-M4_M7.md' for details.
+ *
+ * This is a simplified version of the exception handler. It assumes that the Main Stack
+ * Pointer (MSP) is used for all operations. The handler is not suitable for RTOS-based
+ * firmware because the Process Stack Pointer (PSP) is used for the RTOS tasks. When an
+ * exception occurs while a task is running, the automatic stacking and unstacking stages
+ * will use the PSP, not the MSP that is used during the exception handler execution.
+ * This exception handler should only be used for bare-metal systems where the PSP is
+ * not enabled.
+ *
+ * The stack is used as a buffer for the data that is to be logged. It is recommended
+ * to check if there is enough space before pushing additional content onto the stack.
+ * R0-R3, R12, LR, PC and xPSR are pushed automatically before entering exception handler.
+ * The CPU core also pushes the floating-point unit registers to the stack if the FPU
+ * was used, and it performs a double-word address SP alignment if alignment is enabled.
+ * The pre-exception stack pointer (SP) cannot be calculated with a simple offset from
+ * the saved SP value (value logged here). This must be taken into account when analyzing
+ * logged data.
+ */
+
+    /* Prepare the additional core register values. */
+    ldr r3, =0xE000ED00     // System control block address (SCB)
+    ldr r2, [r3, #0x28]     // Configurable fault status register (CFSR)
+    ldr r1, [r3, #0x38]     // Get offending address from Bus Fault Address Register (BFAR)
+                            // BFAR and MMFAR use the same hardware on Cortex-M4/M7
+    ldr r0, [r3, #0x04]     // Interrupt control and state register (ICSR)
+    mov r3, sp              // Stack pointer post-exception entry
+    push {r0-r11}   // Push the remaining core registers (r4-r11) and additional values (r0-r3)
+
+    /* The function for logging the stack contents, where the processor has stored
+     * the registers, is started from C because it is easier to implement that way.
+     * A programmer does not need to know the details of the implementation of
+     * RTEdbg functions and macros for logging data.
+     *
+     * The SP address where the registers are is passed to Exception_handler() in
+     * register R1 and the ICSR (Interrupt control and state register) value in R0.
+     */
+    mov r1, sp
+    b log_exception
+/*+++++++++++++++++++++++++++++++++++++++++++++*/
 	.size	Default_Handler, .-Default_Handler
 /******************************************************************************
 *

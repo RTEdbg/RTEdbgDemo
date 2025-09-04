@@ -174,9 +174,8 @@ NMI_Handler
         B NMI_Handler
 
 ;===============================================================================
-; Hard fault example handler - entry code for the main_exception_handler() demo.
-        EXTERN main_exception_handler
-        EXTERN g_exception
+; Hard fault example handler - entry code for the log_exception().
+        EXTERN log_exception
         SECTION .text:CODE:NOROOT:REORDER(2)
 HardFault_Handler
 MemManage_Handler
@@ -186,17 +185,44 @@ SVC_Handler
 DebugMon_Handler
 PendSV_Handler
 ;Add other unused IRQ handler names here
-       cpsid i                    ; Disable interrupts
-        ldr r12,=g_exception       ; Registers are first variables of this structure
-        stm r12, {r0-r11}          ; Save values of all registers for debugging purpose
-                                   ; Value of R12 is copied in the main_exception_handler
-        movs r0, #0                ; Exception during unprivileged mode execution
-        tst lr, #4                 ; PSP or MSP was used before the exception was triggered?
-        itte eq           
-        moveq r0, #1               ; Exception during privileged mode execution
-        mrseq r1, msp
-        mrsne r1, psp
-        b main_exception_handler   ; Jump to exception handler demo (includes data logging)
+;*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+;* DEFAULT EXCEPTION HANDLER - See the 'Exception_handler_Cortex-M4_M7.md' for details.
+;*
+;* This is a simplified version of the exception handler. It assumes that the Main Stack
+;* Pointer (MSP) is used for all operations. The handler is not suitable for RTOS-based
+;* firmware because the Process Stack Pointer (PSP) is used for the RTOS tasks. When an
+;* exception occurs while a task is running, the automatic stacking and unstacking stages
+;* will use the PSP, not the MSP that is used during the exception handler execution.
+;* This exception handler should only be used for bare-metal systems where the PSP is
+;* not enabled.
+;*
+;* The stack is used as a buffer for the data that is to be logged. It is recommended
+;* to check if there is enough space before pushing additional content onto the stack.
+;* R0-R3, R12, LR, PC and xPSR are pushed automatically before entering exception handler.
+;* The CPU core also pushes the floating-point unit registers to the stack if the FPU
+;* was used, and it performs a double-word address SP alignment if alignment is enabled.
+;* The pre-exception stack pointer (SP) cannot be calculated with a simple offset from
+;* the saved SP value (value logged here). This must be taken into account when analyzing
+;* logged data.
+
+;   * Prepare the additional core register values. *
+    ldr r3, =0xE000ED00     ; System control block address (SCB)
+    ldr r2, [r3, #0x28]     ; Configurable fault status register (CFSR)
+    ldr r1, [r3, #0x38]     ; Get offending address from Bus Fault Address Register (BFAR)
+                            ; BFAR and MMFAR use the same hardware on Cortex-M4/M7
+    ldr r0, [r3, #0x04]     ; Interrupt control and state register (ICSR)
+    mov r3, sp              ; Stack pointer post-exception entry
+    push {r0-r11}   ; Push the remaining core registers (r4-r11) and additional values (r0-r3)
+
+;   The function for logging the stack contents, where the processor has stored
+;   the registers, is started from C because it is easier to implement that way.
+;   A programmer does not need to know the details of the implementation of
+;   RTEdbg functions and macros for logging data.
+;   
+;   The SP address where the registers are is passed to Exception_handler() in
+;   register R1 and the ICSR (Interrupt control and state register) value in R0.
+    mov r1, sp
+    b log_exception
 ;===============================================================================
 
 ;        PUBWEAK MemManage_Handler
