@@ -302,7 +302,7 @@ void __NO_RETURN shutdown_and_restart (void)
   * @brief  This function is executed in case of error occurrence.
   * @retval None
   */
-void Error_Handler(void)
+void __attribute__((noinline)) Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */

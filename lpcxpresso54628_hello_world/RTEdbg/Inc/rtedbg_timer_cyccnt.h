@@ -37,7 +37,7 @@
  *          GDB server and keeping it running while testing the embedded system.
  *          See also: https://kb.segger.com/J-Link_Cortex-M_application_uses_cycle_counter
  *
- * @version RTEdbg library v1.01.00
+ * @version RTEdbg library v1.02.00
  **********************************************************************************/
 
 #ifndef RTEDBG_TIMER_CYCCNT_H_

@@ -9,7 +9,6 @@
 // IN_FILE(EXC_NAMES, "cortex_M4-M7_exceptions.txt")
 
 // MSGN_FATAL_EXCEPTION
-#define MSGN_FATAL_EXCEPTION 480U
 // "\nCPU registers"
 // "\n  R00:0x%[384:32u]08X, R01:0x%08X, R02:0x%08X, R03:0x%08X"
 // "\n  R04:0x%[128:32u]08X, R05:0x%08X, R06:0x%08X, R07:0x%08X"

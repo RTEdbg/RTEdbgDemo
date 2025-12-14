@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 9.0\common\bin\cspybat" -f "C:\RTEdbg\Demo\Simple_STM32H743\EWARM\settings\STM32H743.STM32H743.general.xcl" --backend -f "C:\RTEdbg\Demo\Simple_STM32H743\EWARM\settings\STM32H743.STM32H743.driver.xcl" 
+& "C:\Program Files\IAR Systems\Embedded Workbench 9.0\common\bin\cspybat" -f "C:\B\SWdbg\RTEdbg\Demo\Simple_STM32H743\EWARM\settings\STM32H743.STM32H743.general.xcl" --backend -f "C:\B\SWdbg\RTEdbg\Demo\Simple_STM32H743\EWARM\settings\STM32H743.STM32H743.driver.xcl" 
 }
 else
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 9.0\common\bin\cspybat" -f "C:\RTEdbg\Demo\Simple_STM32H743\EWARM\settings\STM32H743.STM32H743.general.xcl" --debug_file=$debugfile --backend -f "C:\RTEdbg\Demo\Simple_STM32H743\EWARM\settings\STM32H743.STM32H743.driver.xcl" 
+& "C:\Program Files\IAR Systems\Embedded Workbench 9.0\common\bin\cspybat" -f "C:\B\SWdbg\RTEdbg\Demo\Simple_STM32H743\EWARM\settings\STM32H743.STM32H743.general.xcl" --debug_file=$debugfile --backend -f "C:\B\SWdbg\RTEdbg\Demo\Simple_STM32H743\EWARM\settings\STM32H743.STM32H743.driver.xcl" 
 }

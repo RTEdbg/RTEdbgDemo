@@ -9,7 +9,7 @@
  * @author  Branko Premzel
  * @brief   RTEdbg library function declarations and macro definitions.
  * @note    This file must be included in all source files that use data logging.
- * @version RTEdbg library v1.01.00
+ * @version RTEdbg library v1.02.00
  *
  * @note  Add `#define RTE_USE_INLINE_FUNCTIONS` before include `rtedbg.c` if you
  *        want to use faster inline versions of the logging functions `__rte_msg0()`
@@ -79,6 +79,12 @@ extern "C" {
 
 #define RTE_ERASED_STATE  0xFFFFFFFFU    // Erased state of the circular buffer.
 
+#if defined RTE_USE_ANY_TYPE_UNION
+#define RTE_PARAM(par)  par._uint32
+#else
+#define RTE_PARAM(par)  par
+#endif
+
 
 /************************************************************************************
  * Functions that "convert" the float or double value to uint32_t
@@ -110,6 +116,48 @@ __STATIC_FORCEINLINE uint32_t double_par(const double number)
     value.f = (float)number;
     return value.u;
 }
+
+
+#if defined(_lint) && defined(RTE_USE_ANY_TYPE_UNION)
+#undef RTE_USE_ANY_TYPE_UNION
+#endif
+
+#if defined(RTE_USE_ANY_TYPE_UNION) && !defined(__cplusplus)
+/* Union defined to avoid built-in type conversions between function calls in RTE_MSG_().
+ * Example: The default type conversion converts a float value to an unsigned integer
+ *          when "#define rte_any32_t uint32_t" is used.
+ * This is also an indirect check if the data type fits uint32_t.
+ */
+typedef union {
+    uint32_t           _uint32;
+    unsigned int       _unsigned_int;
+    unsigned           _unsigned;
+    int32_t            _int32;
+    int                _int;
+    short int          _short_int;
+    short              _short;
+    unsigned short int _u_short_int;
+    uint16_t           _uint16;
+    int16_t            _int16;
+    uint8_t            _uint8;
+    int8_t             _int8;
+    char               _char;
+    unsigned char      _uchar;
+    float              _float;
+    void *             _pvoid;
+} rte_any32_t;
+
+#else  /* if defined RTE_USE_ANY_TYPE_UNION */
+
+/* If casting to union is not possible or allowed for your compiler, only casting to uint32_t
+ * can be used. The use of a float value as a parameter of the macro RTE_MSG_() is no longer
+ * possible, because the type conversion to uint32_t converts the float value to an integer (it
+ * strips the decimal part).
+ * Use the functions float_par() and double_par() to "convert" the parameters of the logging
+ * function to "uint32_t" and log the float values at no extra cost.
+ */
+#define rte_any32_t  uint32_t
+#endif // defined RTE_USE_ANY_TYPE_UNION
 
 
 /* Extended message macros - they combine the format ID, filter number and 
@@ -278,6 +326,77 @@ __STATIC_FORCEINLINE uint32_t double_par(const double number)
                (rte_any32_t)(data4));                                               \
 }
 
+__STATIC_FORCEINLINE uint32_t _rte_cvt(rte_any32_t value)
+{
+    return RTE_PARAM(value);
+}
+
+#define RTE_MSG5(fmt, filter_no, data1, data2, data3, data4, data5)                 \
+{                                                                                   \
+    RTE_CHECK_PARAMETERS(filter_no, fmt, 15U);                                      \
+    do {                                                                            \
+        uint32_t data[5];                                                           \
+        data[0U] = _rte_cvt((rte_any32_t)(data1));                                  \
+        data[1U] = _rte_cvt((rte_any32_t)(data2));                                  \
+        data[2U] = _rte_cvt((rte_any32_t)(data3));                                  \
+        data[3U] = _rte_cvt((rte_any32_t)(data4));                                  \
+        data[4U] = _rte_cvt((rte_any32_t)(data5));                                  \
+        __rte_msgn(RTE_PACK(filter_no, fmt, 4U), data, sizeof(data));               \
+        }                                                                           \
+    while(0);                                                                       \
+}
+
+#define RTE_MSG6(fmt, filter_no, data1, data2, data3, data4, data5, data6)          \
+{                                                                                   \
+    RTE_CHECK_PARAMETERS(filter_no, fmt, 15U);                                      \
+    do {                                                                            \
+        uint32_t data[6];                                                           \
+        data[0U] = _rte_cvt((rte_any32_t)(data1));                                  \
+        data[1U] = _rte_cvt((rte_any32_t)(data2));                                  \
+        data[2U] = _rte_cvt((rte_any32_t)(data3));                                  \
+        data[3U] = _rte_cvt((rte_any32_t)(data4));                                  \
+        data[4U] = _rte_cvt((rte_any32_t)(data5));                                  \
+        data[5U] = _rte_cvt((rte_any32_t)(data6));                                  \
+        __rte_msgn(RTE_PACK(filter_no, fmt, 4U), data, sizeof(data));               \
+        }                                                                           \
+    while(0);                                                                       \
+}
+
+#define RTE_MSG7(fmt, filter_no, data1, data2, data3, data4, data5, data6, data7)   \
+{                                                                                   \
+    RTE_CHECK_PARAMETERS(filter_no, fmt, 15U);                                      \
+    do {                                                                            \
+        uint32_t data[7];                                                           \
+        data[0U] = _rte_cvt((rte_any32_t)(data1));                                  \
+        data[1U] = _rte_cvt((rte_any32_t)(data2));                                  \
+        data[2U] = _rte_cvt((rte_any32_t)(data3));                                  \
+        data[3U] = _rte_cvt((rte_any32_t)(data4));                                  \
+        data[4U] = _rte_cvt((rte_any32_t)(data5));                                  \
+        data[5U] = _rte_cvt((rte_any32_t)(data6));                                  \
+        data[6U] = _rte_cvt((rte_any32_t)(data7));                                  \
+        __rte_msgn(RTE_PACK(filter_no, fmt, 4U), data, sizeof(data));               \
+        }                                                                           \
+    while(0);                                                                       \
+}
+
+#define RTE_MSG8(fmt, filter_no, data1, data2, data3, data4, data5, data6, data7, data8) \
+{                                                                                   \
+    RTE_CHECK_PARAMETERS(filter_no, fmt, 15U);                                      \
+    do {                                                                            \
+        uint32_t data[8];                                                           \
+        data[0U] = _rte_cvt((rte_any32_t)(data1));                                  \
+        data[1U] = _rte_cvt((rte_any32_t)(data2));                                  \
+        data[2U] = _rte_cvt((rte_any32_t)(data3));                                  \
+        data[3U] = _rte_cvt((rte_any32_t)(data4));                                  \
+        data[4U] = _rte_cvt((rte_any32_t)(data5));                                  \
+        data[5U] = _rte_cvt((rte_any32_t)(data6));                                  \
+        data[6U] = _rte_cvt((rte_any32_t)(data7));                                  \
+        data[7U] = _rte_cvt((rte_any32_t)(data8));                                  \
+        __rte_msgn(RTE_PACK(filter_no, fmt, 4U), data, sizeof(data));               \
+        }                                                                           \
+    while(0);                                                                       \
+}
+
 #define INTRTE_EXT_MSG0(fmt, filter_no, ext_data, mask)                             \
 {                                                                                   \
     RTE_CHECK_PARAMETERS(filter_no, fmt, mask);                                     \
@@ -337,47 +456,6 @@ __STATIC_FORCEINLINE uint32_t double_par(const double number)
     __rte_string(RTE_PACK(filter_no, fmt, 4U), address);                            \
 }
 
-#if defined(_lint) && defined(RTE_USE_ANY_TYPE_UNION)
-#undef RTE_USE_ANY_TYPE_UNION
-#endif
-
-#if defined(RTE_USE_ANY_TYPE_UNION) && !defined(__cplusplus)
-/* Union defined to avoid built-in type conversions between function calls in RTE_MSG_().
- * Example: The default type conversion converts a float value to an unsigned integer
- *          when "#define rte_any32_t uint32_t" is used.
- * This is also an indirect check if the data type fits uint32_t.
- */
-typedef union {
-    uint32_t           _uint32;
-    unsigned int       _unsigned_int;
-    unsigned           _unsigned;
-    int32_t            _int32;
-    int                _int;
-    short int          _short_int;
-    short              _short;
-    unsigned short int _u_short_int;
-    uint16_t           _uint16;
-    int16_t            _int16;
-    uint8_t            _uint8;
-    int8_t             _int8;
-    char               _char;
-    unsigned char      _uchar;
-    float              _float;
-    void *             _pvoid;
-} rte_any32_t;
-
-#else  /* if defined RTE_USE_ANY_TYPE_UNION */
-
-/* If casting to union is not possible or allowed for your compiler, only casting to uint32_t
- * can be used. The use of a float value as a parameter of the macro RTE_MSG_() is no longer
- * possible, because the type conversion to uint32_t converts the float value to an integer (it
- * strips the decimal part).
- * Use the functions float_par() and double_par() to "convert" the parameters of the logging 
- * function to "uint32_t" and log the float values at no extra cost.
- */
-#define rte_any32_t  uint32_t
-#endif // defined RTE_USE_ANY_TYPE_UNION
-
 
 /**************************
  *  FUNCTION DEFINITIONS
@@ -436,6 +514,10 @@ void rte_restore_filter(void);
 #define RTE_MSG2(fmt_id, filter, data1, data2)
 #define RTE_MSG3(fmt_id, filter, data1, data2, data3)
 #define RTE_MSG4(fmt_id, filter, data1, data2, data3, data4)
+#define RTE_MSG5(fmt_id, filter, data1, data2, data3, data4, data5)
+#define RTE_MSG6(fmt_id, filter, data1, data2, data3, data4, data5, data6)
+#define RTE_MSG7(fmt_id, filter, data1, data2, data3, data4, data5, data6, data7)
+#define RTE_MSG8(fmt_id, filter, data1, data2, data3, data4, data5, data6, data7, data8)
 #define INTRTE_EXT_MSG0(fmt_id, filter, ext_data, mask)
 #define INTRTE_EXT_MSG1(fmt_id, filter, data1, ext_data, mask)
 #define INTRTE_EXT_MSG2(fmt_id, filter, data1, data2, ext_data, mask)

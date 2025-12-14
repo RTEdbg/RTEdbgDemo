@@ -7,7 +7,7 @@
 /*******************************************************************************
  * @file    rtedbg_cortex_m_mutex.h
  * @author  Branko Premzel
- * @version RTEdbg library v1.01.00
+ * @version RTEdbg library v1.02.00
  *
  * @brief  ARM Cortex core-specific functions for buffer space reservation.
  *         This version is for ARM Cortex-M cores that support exclusive access

@@ -7,7 +7,7 @@
 /*********************************************************************************
  * @file    rtedbg.c
  * @author  Branko Premzel
- * @version RTEdbg library v1.01.00
+ * @version RTEdbg library v1.02.00
  * @brief   Real-time reentrant data logging functions.
  *
  * Reentrant functions for logging binary data in the circular buffer. Data is

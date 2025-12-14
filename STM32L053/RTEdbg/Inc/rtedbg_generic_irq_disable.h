@@ -7,7 +7,7 @@
 /*******************************************************************************
  * @file    rtedbg_generic_irq_disable.h
  * @author  Branko Premzel
- * @version RTEdbg library v1.01.00
+ * @version RTEdbg library v1.02.00
  *
  * @brief  Circular buffer space reservation using interrupt disable/enable.
  *

@@ -12,7 +12,7 @@
  *          The timestamp value included in the messages is reproducible and
  *          does not depend on the specific hardware or compiler version/settings.
  *
- * @version RTEdbg library v1.01.00
+ * @version RTEdbg library v1.02.00
  **********************************************************************************/
 
 #ifndef RTEDBG_TEST_TIMER_H

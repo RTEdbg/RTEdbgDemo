@@ -9,7 +9,7 @@
  * @author  Branko Premzel
  * @brief   Time measurement for the data logging functions.
  *          TIM2 16-bit timer driver for the STM32L0 family.
- * @version RTEdbg library v1.01.00
+ * @version RTEdbg library v1.02.00
  *
  * @note This is a minimalist version of the driver made without using the STM32 HAL
  *       or low-level HAL functions.

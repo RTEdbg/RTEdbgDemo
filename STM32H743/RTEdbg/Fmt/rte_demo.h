@@ -39,7 +39,7 @@
 
 // MSGN2_DOUBLE "Print PI * 1e9: %[64f]10.10f"
 
-// FMT_START( 316 )
+// FMT_START( 360 )
 
 // MSG2_UNSIGNEDSCALED
 // "Battery voltage: %[32](*0.01)|Battery voltage[V]|.2f V, battery temperature: %[32u](*0.1).1f°C"

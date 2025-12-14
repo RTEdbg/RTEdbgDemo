@@ -18,7 +18,7 @@
  *          enabled for that task. Attempts to access these registers from unprivileged
  *          code result in a HardFault exception.
  *
- * @version RTEdbg library v1.01.00
+ * @version RTEdbg library v1.02.00
  **********************************************************************************/
 
 #ifndef RTEDBG_TIMER_SYSTICK_H

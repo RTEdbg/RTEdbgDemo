@@ -10,7 +10,7 @@
  * @brief   Internal definitions for the real-time data logging functions.
  * @note    This file should be included in your program code only if the firmware needs
  *          access to the g_rtedbg data structure to e.g. transfer data to the host.
- * @version RTEdbg library v1.01.00
+ * @version RTEdbg library v1.02.00
  ********************************************************************************/
 
 #ifndef RTEDBG_INT_H
@@ -204,12 +204,6 @@ typedef union
     } w32;
 } rte_pack_data_t;
 
-
-#if defined RTE_USE_ANY_TYPE_UNION
-#define RTE_PARAM(par)  par._uint32
-#else
-#define RTE_PARAM(par)  par
-#endif
 
 #if defined RTE_STOP_SINGLE_SHOT_AT_FIRST_TOO_LARGE_MSG
 #define RTE_STOP_MESSAGE_LOGGING()  ptr->filter = 0

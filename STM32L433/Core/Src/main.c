@@ -89,7 +89,7 @@ int main(void)
   //++++++++++++++++++++++++++++++++++++++++++++++++
   // Enable one or more RTEdbg demo functions, compile and start the code.
   // Batch files for the data transfer from the embedded system are in the TEST folder.
-#if 0
+#if 1
   // RTEdbg test code - enable after porting to a new compiler or CPU core
   void rtedbg_test(void);
   rtedbg_test();
@@ -220,7 +220,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-#include "fault_handler.h"
+#include "rtedbg.h"
 #include "rte_demo.h"
 
 /***
@@ -239,6 +239,30 @@ void __NO_RETURN shutdown_and_restart (void)
    for (;;)
       ;
 }
+
+/**
+ @brief   Get Link Register
+ @details Returns the current value of the Link Register (LR).
+ @return  LR register value
+*/
+#if defined ( __ICCARM__ )
+// __get_LR() is EWARM intrinsic function
+#elif defined ( __CC_ARM )
+register uint32_t __reglr  __ASM("lr");
+__STATIC_INLINE uint32_t __get_LR(void)
+{
+    return(__reglr);
+}
+#elif defined ( __GNUC__ )
+__STATIC_FORCEINLINE uint32_t __get_LR (void)
+{
+    register uint32_t result;
+    __ASM volatile ("MOV %0, LR\n" : "=r" (result) );
+    return(result);
+}
+#else  /* if defined( __ICCARM__ ) */
+#error "Unknown compiler"
+#endif /* if defined( __ICCARM__ ) */
 
 /* USER CODE END 4 */
 

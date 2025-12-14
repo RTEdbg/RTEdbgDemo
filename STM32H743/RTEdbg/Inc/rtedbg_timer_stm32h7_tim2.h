@@ -9,7 +9,7 @@
  * @author  Branko Premzel
  * @brief   Time measurement for the data logging functions.
  *          TIM2 32-bit timer driver for the STM32H7 family.
- * @version RTEdbg library v1.01.00
+ * @version RTEdbg library v1.02.00
  *
  * @note This is a minimalist version of the driver created without using the STM32 HAL
  *       or low-level HAL functions.
