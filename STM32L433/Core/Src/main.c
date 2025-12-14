@@ -89,7 +89,7 @@ int main(void)
   //++++++++++++++++++++++++++++++++++++++++++++++++
   // Enable one or more RTEdbg demo functions, compile and start the code.
   // Batch files for the data transfer from the embedded system are in the TEST folder.
-#if 1
+#if 0
   // RTEdbg test code - enable after porting to a new compiler or CPU core
   void rtedbg_test(void);
   rtedbg_test();
